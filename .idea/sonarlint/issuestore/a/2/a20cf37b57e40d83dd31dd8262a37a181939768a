@@ -1,0 +1,7 @@
+
+e
+java:S1214
+"CMove constants defined in this interfaces to another class or enum.(â˜ô—øÿÿÿÿ8Ìèäª÷.
+p
+java:S1128"NRemove this unused import 'com.udacity.jwdnd.course1.cloudstorage.model.User'.(ú‹·¡þÿÿÿÿ8¼ž§«÷.
+v	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(°úÕÒ8Õšá·÷.
