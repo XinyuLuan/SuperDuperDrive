@@ -35,3 +35,13 @@ Ystarter/cloudstorage/src/main/java/com/udacity/jwdnd/course1/cloudstorage/model
 Ystarter/cloudstorage/src/main/java/com/udacity/jwdnd/course1/cloudstorage/model/User.java,a/5/a5f85a539ad2aa67ff1c4ded7b368d2211ebacba
 ì
 cstarter/cloudstorage/src/main/java/com/udacity/jwdnd/course1/cloudstorage/services/UserService.java,c/7/c7c4ae2fc6901ac95afe2105b8a1a34d75ee73cf
+ñ
+fstarter/cloudstorage/src/test/java/com/udacity/jwdnd/course1/cloudstorage/service/UserServiceTest.java,a/9/a9321df5f97297467d4adeff387a7d9564597c43
+ù
+mstarter/cloudstorage/src/main/java/com/udacity/jwdnd/course1/cloudstorage/services/AuthenticationService.java,f/8/f86138cf3591369d49a473c4867d85eeefc57352
+î
+dstarter/cloudstorage/src/main/java/com/udacity/jwdnd/course1/cloudstorage/config/SecurityConfig.java,8/b/8b3a7e8c7755d5eb44c9ffa83b8e5b7d602470fb
+ô
+istarter/cloudstorage/src/main/java/com/udacity/jwdnd/course1/cloudstorage/controller/LoginController.java,9/1/9115a7b3e0611a56b2c99542e8f478f80b2c07fb
+ö
+jstarter/cloudstorage/src/main/java/com/udacity/jwdnd/course1/cloudstorage/controller/SignupController.java,0/9/093348c609b359278656d8ace17823f465201a6e

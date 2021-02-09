@@ -28,6 +28,8 @@ public class TestConstant {
     public static final String fileName1 = "testingFile.txt";
     public static final String fileName2 = "testingFile2.txt";
 
+    public static final Integer WAITFOR5SEC = 5;
+
     public TestConstant() {
 
     }
