@@ -87,4 +87,9 @@ public class Credential {
     public void setUserId(int userId) {
         this.userId = userId;
     }
+
+    @Override
+    public String toString() {
+        return "\ncredentialId: " + credentialId + " url: " + url + "\n username " + username + " key " + key + "\n password " + password + " userId " + userId;
+    }
 }

@@ -13,12 +13,16 @@ public interface NoteMapper extends IMapper{
     static final String DELETE_QUERY = "DELETE FROM ";
     static final String TABLE = "NOTES ";
     static final String WHERE_CONDITION = "WHERE ";
+    static final String UPDATE = "UPDATE NOTES SET " +
+            "notetitle = #{noteTitle}, " +
+            "notedescription = #{noteDescription} " +
+            "WHERE noteid = #{noteId}";
 
     String insertNoteSql = "INSERT INTO NOTES (notetitle, notedescription, userid) VALUES(#{noteTitle}, #{noteDescription}, #{userId})";
 
 
-    @Select(GET_QUERY + TABLE + WHERE_CONDITION + "notetitle = #{noteTitle}")
-    Note getNote(String notetitle);
+    @Select(GET_QUERY + TABLE + WHERE_CONDITION + "userid = #{userId}")
+    List<Note> getNote(Integer userId);
 
     @Override
 //    @Insert(INSERT_QUERY + TABLE + "(notetitle, notedescription, userid) " +
@@ -35,4 +39,7 @@ public interface NoteMapper extends IMapper{
 
     @Select(GET_QUERY + TABLE)
     List<Note> getAllNotes();
+
+    @Update(UPDATE)
+    int update(Object object);
 }

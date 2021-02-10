@@ -67,11 +67,13 @@ public class NoteMapperTests {
 //            testNote = TestConstant.getNote(userMapper.getUserByID(i + 1).getUserid());
 //            noteMapper.insert(testNote);
 //        }
-        int expectingResult = 1;
+        int expectingResult = 2;
         int result = noteMapper.insert(testNote);
-        Note note = noteMapper.getNote("title");
+        testNote = TestConstant.getNote(testUser.getUserid());
+        noteMapper.insert(testNote);
+        List <Note> note = noteMapper.getNote(testUser.getUserid());
 
-        Assertions.assertEquals(expectingResult, note.getNoteId());
+        Assertions.assertEquals(expectingResult, note.size());
     }
 
     @Test
@@ -99,4 +101,14 @@ public class NoteMapperTests {
         Assertions.assertEquals(expectResult, resultNotes.size());
     }
 
+    @Test
+    public void testUpdateNotes(){
+        int expectResult = 1;
+        noteMapper.insert(testNote);
+
+        List<Note> notes = noteMapper.getNote(testUser.getUserid());
+        int result = noteMapper.update(new Note(notes.get(0).getNoteId(), "NOTE TITLE", "NOTEDESCRIPTION", notes.get(0).getUserId()));
+
+        Assertions.assertEquals(expectResult, result);
+    }
 }

@@ -36,8 +36,8 @@ public class CredentialMapperTests {
     public void beforeEach() {
         testUser = TestConstant.getUser();
         userMapper.insert(testUser);
-        User user = userMapper.getUser(testUser.getUsername());
-        testCredential = TestConstant.getCredential(user.getUserid());
+        testUser = userMapper.getUser(testUser.getUsername());
+        testCredential = TestConstant.getCredential(testUser.getUserid());
     }
 
     @AfterEach
@@ -54,15 +54,15 @@ public class CredentialMapperTests {
         Assertions.assertEquals(expectingResult, result);
     }
 
-    @Test
-    public void testGetCredentials(){
-
-        int expectingResult = 1;
-        int result = credentialMapper.insert(testCredential);
-        Credential credential = credentialMapper.getCredential("username");
-
-        Assertions.assertEquals(expectingResult, credential.getCredentialId());
-    }
+//    @Test
+//    public void testGetCredentials(){
+//
+//        int expectingResult = 1;
+//        int result = credentialMapper.insert(testCredential);
+//        Credential credential = credentialMapper.getCredential("username");
+//
+//        Assertions.assertEquals(expectingResult, credential.getCredentialId());
+//    }
 
     @Test
     public void testDeleteCredential(){
@@ -88,4 +88,26 @@ public class CredentialMapperTests {
         List<Credential> resultCredentials = credentialMapper.getAllCredential();
         Assertions.assertEquals(expectResult, resultCredentials.size());
     }
+
+    @Test
+    public void testUpdateCredential(){
+        int expectingResult = 1;
+        credentialMapper.insert(testCredential);
+
+        List<Credential> credentials = credentialMapper.getCredentialById(testUser.getUserid());
+        if(credentials.size() == 0){
+            logger.info("There is no credentials");
+        }
+        else{
+            logger.info(String.valueOf(credentials.get(0)));
+        }
+        int result = credentialMapper.update(
+                new Credential(credentials.get(0).getCredentialId(),
+                        "NEW URL",
+                "NEW KEY",
+                "NEW PASSWORD",
+                        credentials.get(0).getUserId()));
+        Assertions.assertEquals(expectingResult, result);
+    }
+
 }
