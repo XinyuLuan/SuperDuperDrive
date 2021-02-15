@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("signup")
+@RequestMapping("/signup")
 public class SignupController {
 
     @Autowired

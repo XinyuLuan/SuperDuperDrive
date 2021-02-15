@@ -1,5 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage.model;
 
+import com.udacity.jwdnd.course1.cloudstorage.model.view.NoteForm;
+
 public class Note {
 
     private Integer noteId;
@@ -11,6 +13,15 @@ public class Note {
         this.noteId = noteId;
         this.noteTitle = noteTitle;
         this.noteDescription = noteDescription;
+        this.userId = userId;
+    }
+
+    public Note(NoteForm noteForm, Integer userId){
+        if(!(noteForm.getNoteId() == null) && noteForm.getNoteId().length() != 0){
+            this.noteId = Integer.parseInt(noteForm.getNoteId());
+        }
+        this.noteDescription = noteForm.getNoteDescription();
+        this.noteTitle = noteForm.getNoteTitle();
         this.userId = userId;
     }
 
@@ -46,5 +57,14 @@ public class Note {
         this.userId = userId;
     }
 
+    @Override
+    public String toString() {
+        return "Note{" +
+                "noteId=" + noteId +
+                ", noteTitle='" + noteTitle + '\'' +
+                ", noteDescription='" + noteDescription + '\'' +
+                ", userId=" + userId +
+                '}';
+    }
 
 }

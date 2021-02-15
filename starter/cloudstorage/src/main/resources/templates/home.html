@@ -11,7 +11,7 @@
     <body class="p-3 mb-2 bg-light text-black">
         <div class="container">
             <div id="logoutDiv">
-                <form action="#" method="POST">
+                <form th:action="@{/logout}" method="POST">
                     <button type="submit" class="btn btn-secondary float-right">Logout</button>
                 </form>
             </div>
@@ -60,6 +60,7 @@
                             </table>
                         </div>
                     </div>
+                    <!--note form start-->
                     <div class="tab-pane fade" id="nav-notes" role="tabpanel" aria-labelledby="nav-notes-tab">
                         <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showNoteModal()">
                             + Add a New Note
@@ -75,18 +76,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <tr th:each="note: ${notesList}">
                                         <td>
-                                            <button type="button" class="btn btn-success">Edit</button>
-                                            <a class="btn btn-danger">Delete</a>
+                                            <button type="button" class="btn btn-success" th:onclick="javascript:showNoteModal([[${note.noteId}]],[[${note.noteTitle}]],[[${note.noteDescription}]])">Edit</button>
+                                            <a th:href="@{/note/delete/(noteId=${note.noteId})}" class="btn btn-danger">Delete</a>
                                         </td>
-                                        <th scope="row">Example Note Title</th>
-                                        <td>Example Note Description </td>
+                                        <th scope="row" th:text="${note.noteTitle}">Example Note Title</th>
+                                        <td th:text="${note.noteDescription}">Example Note Description </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-
+                        <!--note model start-->
                         <div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="noteModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -97,15 +98,15 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="#" method="POST">
-                                            <input type="hidden" name="noteId" id="note-id">
+                                        <form th:object="${noteForm}" th:action="@{/note/add}" method="POST">
+                                            <input th:field="*{noteId}" type="hidden" name="noteId" id="note-id">
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">Title</label>
-                                                <input type="text" name= "noteTitle" class="form-control" id="note-title" maxlength="20" required>
+                                                <input th:field="*{noteTitle}" type="text" name= "noteTitle" class="form-control" id="note-title" maxlength="20" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="note-description" class="col-form-label">Description</label>
-                                                <textarea class="form-control" name="noteDescription" id="note-description" rows="5" maxlength="1000" required></textarea>
+                                                <textarea th:field="*{noteDescription}" class="form-control" name="noteDescription" id="note-description" rows="5" maxlength="1000" required></textarea>
                                             </div>
                                             <button id="noteSubmit" type="submit" class="d-none"></button>
                                         </form>
@@ -117,7 +118,10 @@
                                 </div>
                             </div>
                         </div>
+                        <!--note model end-->
                     </div>
+                    <!--note form end-->
+                    <!--credential form start-->
                     <div class="tab-pane fade" id="nav-credentials" role="tabpanel" aria-labelledby="nav-credentials-tab">
                         <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showCredentialModal()">
                             + Add a New Credential
@@ -134,14 +138,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
+                                <tr th:each="credential: ${credentialList}">
                                     <td>
                                         <button type="button" class="btn btn-success">Edit</button>
                                         <a class="btn btn-danger">Delete</a>
                                     </td>
-                                    <th scope="row">Example Credential URL</th>
-                                    <td>Example Credential Username</td>
-                                    <td>Example Credential Password</td>
+                                    <th th:text="${credential.url}" scope="row">Example Credential URL</th>
+                                    <td th:text="${credential.username}">Example Credential Username</td>
+                                    <td th:text="${credential.password}">Example Credential Password</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -182,6 +186,7 @@
                             </div>
                         </div>
                     </div>
+                    <!--credential form end-->
                 </div>
             </div>
         </div>
