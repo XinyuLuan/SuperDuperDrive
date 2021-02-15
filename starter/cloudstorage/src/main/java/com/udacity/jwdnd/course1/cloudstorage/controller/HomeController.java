@@ -2,6 +2,7 @@ package com.udacity.jwdnd.course1.cloudstorage.controller;
 
 import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
 import com.udacity.jwdnd.course1.cloudstorage.model.Note;
+import com.udacity.jwdnd.course1.cloudstorage.model.view.CredentialForm;
 import com.udacity.jwdnd.course1.cloudstorage.model.view.NoteForm;
 import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
 import com.udacity.jwdnd.course1.cloudstorage.services.EncryptionService;
@@ -70,13 +71,16 @@ public class HomeController {
         NoteForm noteForm = new NoteForm();
         model.addAttribute("noteForm", noteForm);
 
+
+
         List<Credential> credentialsList = credentialService.getCredential(userId);
         for(int i = 0; i < 3; i++){
             credentialsList.add(TestConstant.getCredential(userId));
         }
-
         model.addAttribute("credentialList", credentialsList);
 
+        CredentialForm credentialForm = new CredentialForm();
+        model.addAttribute("credentialForm", credentialForm);
 
         return "home";
     }
