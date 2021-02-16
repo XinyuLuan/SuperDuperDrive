@@ -6,6 +6,8 @@ import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -14,6 +16,8 @@ public class CredentialService {
     private final UserMapper userMapper;
     @Autowired
     private final CredentialMapper credentialMapper;
+    @Autowired
+    private EncryptionService encryptionService;
 
     public CredentialService(UserMapper userMapper, CredentialMapper credentialMapper) {
         this.userMapper = userMapper;
@@ -25,7 +29,15 @@ public class CredentialService {
     }
 
     public int insert(Credential credential){
-        return credentialMapper.insert(credential);
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
+        String encodedSalt = Base64.getEncoder().encodeToString(salt);
+        String password = credential.getPassword();
+        String encyptpassword = this.encryptionService.encryptValue(password, encodedSalt);
+        credential.setKey(encodedSalt);
+        credential.setPassword(encyptpassword);
+        return this.credentialMapper.insert(credential);
     }
 
     public int delete(Integer creadentialId){
@@ -37,6 +49,11 @@ public class CredentialService {
     }
 
     public int update(Credential credential){
-        return credentialMapper.update(credential);
+        if(credential.getKey()==null || credential.getKey().equals("")){
+            String key = this.credentialMapper.getKey(credential.getCredentialId());
+            credential.setKey(key);
+            credential.setPassword(encryptionService.encryptValue(credential.getPassword(),key));
+        }
+        return this.credentialMapper.update(credential);
     }
 }

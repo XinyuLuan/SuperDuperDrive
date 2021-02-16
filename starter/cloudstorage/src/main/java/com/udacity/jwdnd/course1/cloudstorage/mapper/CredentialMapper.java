@@ -17,6 +17,7 @@ public interface CredentialMapper extends IMapper{
             "username = #{username}, " +
             "password = #{password} " +
             "WHERE credentialid = #{credentialId}";
+    String getKeyByUserIdAndCredentialIdSql = "SELECT key FROM CREDENTIALS WHERE  credentialid= #{credentialId}";
 
 
 //    @Select(GET_QUERY + TABLE + WHERE_CONDITION + "username = #{username}")
@@ -41,4 +42,7 @@ public interface CredentialMapper extends IMapper{
 
     @Update(UPDATE)
     int update(Object object);
+
+    @Select(getKeyByUserIdAndCredentialIdSql)
+    String getKey(int credetnialId);
 }

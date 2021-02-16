@@ -21,6 +21,7 @@ public class Credential {
         this.username = credentialForm.getUsername();
         this.password = credentialForm.getPassword();
         this.userId = userId;
+        this.key = null;
     }
 
     public Credential(int credentialId, String url, String username, String key, String password, int userId) {

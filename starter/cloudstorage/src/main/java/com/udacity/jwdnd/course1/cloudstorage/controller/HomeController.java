@@ -53,19 +53,17 @@ public class HomeController {
             String username = authentication.getName();
             userId = Integer.valueOf(userService.getUser(username).getUserid());
             session.setAttribute("userId", userId);
-            // how does this work ?????????????
         }
         else{
-            userId = Integer.valueOf((int)session.getAttribute("userId"));;
+            userId = Integer.valueOf((int)session.getAttribute("userId"));
         }
 
         model.addAttribute("enS", encryptionService);
-        // how does this encryptionService work ??????
 
         List<Note> notesList = noteService.getNote(userId);
-        for(int i = 0; i< 3; i++) {
-            notesList.add(TestConstant.getNote(i, userId));
-        }
+//        for(int i = 0; i< 3; i++) {
+//            notesList.add(TestConstant.getNote(i, userId));
+//        }
         model.addAttribute("notesList", notesList);
 
         NoteForm noteForm = new NoteForm();
@@ -74,9 +72,9 @@ public class HomeController {
 
 
         List<Credential> credentialsList = credentialService.getCredential(userId);
-        for(int i = 0; i < 3; i++){
-            credentialsList.add(TestConstant.getCredential(userId));
-        }
+//        for(int i = 0; i < 3; i++){
+//            credentialsList.add(TestConstant.getCredential(userId));
+//        }
         model.addAttribute("credentialList", credentialsList);
 
         CredentialForm credentialForm = new CredentialForm();

@@ -1,5 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.services;
 
+import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -46,5 +47,12 @@ public class EncryptionService {
         }
 
         return new String(decryptedValue);
+    }
+
+    public String decryptPassword(Credential credential){
+        String password = credential.getPassword();
+        String key = credential.getKey();
+        logger.info("password: " + password + " key: " + key);
+        return decryptValue(credential.getPassword(), credential.getKey());
     }
 }
