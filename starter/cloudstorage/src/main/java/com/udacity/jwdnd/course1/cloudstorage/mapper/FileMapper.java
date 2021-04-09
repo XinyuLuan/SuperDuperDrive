@@ -12,14 +12,26 @@ public interface FileMapper extends IMapper{
     static final String DELETE_QUERY = "DELETE FROM ";
     static final String TABLE = "FILES ";
     static final String WHERE_CONDITION = "WHERE ";
+    static final String updateFileByNoteObjectSql =  "UPDATE FILES SET " +
+            "filename = #{filename}, " +
+            "filedata = #{fileData}, " +
+            "contenttype = #{contentType}, " +
+            "filesize = #{fileSize} , " +
+            "userid = #{userId} " +
+            "WHERE fileId = #{fileId}";
 
     @Select(GET_QUERY + TABLE + WHERE_CONDITION + "filename = #{fileName}")
     File getFile(String filename);
 
+    String insertFileSql = "INSERT INTO FILES (filename, contenttype, filesize, userid, filedata) " +
+            "VALUES(#{filename}, #{contentType}, #{fileSize}, #{userId}, #{fileData})";
     @Insert(INSERT_QUERY + TABLE + "(filename, contenttype, filesize, userid, filedata) " +
-            "VALUES(#{fileName}, #{contentType}, #{filesize}, #{userId}, #{filedata})")
+            "VALUES(#{fileName}, #{contentType}, #{fileSize}, #{userId}, #{fileData})")
     @Options(useGeneratedKeys = true, keyProperty = "fileId")
     int insert(File o);
+
+    @Select(GET_QUERY + TABLE + WHERE_CONDITION + "userId = #{userId} AND filename = #{filename}" )
+    File hasDuplicateFile(int userId, String filename);
 
     @Delete(DELETE_QUERY + TABLE + WHERE_CONDITION + " fileId = #{fileId}")
     int delete(Integer fileId);
@@ -32,4 +44,8 @@ public interface FileMapper extends IMapper{
 
     @Select(GET_QUERY + TABLE + WHERE_CONDITION + " fileId = #{fileId}")
     File getItemById(Integer fileId);
+
+    @Override
+    @Update(updateFileByNoteObjectSql)
+    int update(Object object);
 }

@@ -1,13 +1,12 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 
 import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
+import com.udacity.jwdnd.course1.cloudstorage.model.File;
 import com.udacity.jwdnd.course1.cloudstorage.model.Note;
 import com.udacity.jwdnd.course1.cloudstorage.model.view.CredentialForm;
+import com.udacity.jwdnd.course1.cloudstorage.model.view.FileForm;
 import com.udacity.jwdnd.course1.cloudstorage.model.view.NoteForm;
-import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
-import com.udacity.jwdnd.course1.cloudstorage.services.EncryptionService;
-import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
-import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
+import com.udacity.jwdnd.course1.cloudstorage.services.*;
 import com.udacity.jwdnd.course1.cloudstorage.utils.TestConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +39,9 @@ public class HomeController {
     @Autowired
     private CredentialService credentialService;
 
+    @Autowired
+    private FileService fileService;
+
     public HomeController(UserService userService, EncryptionService encryptionService) {
         this.userService = userService;
         this.encryptionService = encryptionService;
@@ -60,21 +62,22 @@ public class HomeController {
 
         model.addAttribute("enS", encryptionService);
 
+        List<File> filesList = fileService.findAllFiles();
+        for(File file : filesList){
+            log.info("HomeController/home: " + file.getFileName());
+        }
+        model.addAttribute("filesList", filesList);
+
+        FileForm fileForm = new FileForm();
+        model.addAttribute("fileForm", fileForm);
+
         List<Note> notesList = noteService.getNote(userId);
-//        for(int i = 0; i< 3; i++) {
-//            notesList.add(TestConstant.getNote(i, userId));
-//        }
         model.addAttribute("notesList", notesList);
 
         NoteForm noteForm = new NoteForm();
         model.addAttribute("noteForm", noteForm);
 
-
-
         List<Credential> credentialsList = credentialService.getCredential(userId);
-//        for(int i = 0; i < 3; i++){
-//            credentialsList.add(TestConstant.getCredential(userId));
-//        }
         model.addAttribute("credentialList", credentialsList);
 
         CredentialForm credentialForm = new CredentialForm();

@@ -1,5 +1,8 @@
 package com.udacity.jwdnd.course1.cloudstorage.model;
 
+import lombok.ToString;
+
+@ToString(includeFieldNames = true)
 public class File {
 
     private Integer fileId;
@@ -8,6 +11,17 @@ public class File {
     private String fileSize;
     private Integer userId;
     private byte[] fileData;
+
+    public File() {
+    }
+
+    public File( String fileName, String contentType, String fileSize, Integer userId,  byte[] fileData) {
+        this.fileName = fileName;
+        this.contentType = contentType;
+        this.fileSize = fileSize;
+        this.userId = userId;
+        this.fileData = fileData;
+    }
 
     public File(Integer fileId, String fileName, String contentType, String fileSize, Integer userId, byte[] fileData) {
         this.fileId = fileId;
