@@ -16,19 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class SignupController {
 
     @Autowired
-    private final UserService userService;
-
-    public SignupController(UserService userService) {
-        this.userService = userService;
-    }
+    private UserService userService;
 
     @GetMapping
     public String toView(){
         return "signup";
     }
 
-    @PostMapping()
-                                // Model is used for data to talk to html page
+    @PostMapping
+    // Model is used for data to talk to html page
     public String getPost(@ModelAttribute SignupForm signupForm, Model model){
         String signUpErrorMsg = null;
         if(!userService.isUsernameAvailable(signupForm.getUsername())){

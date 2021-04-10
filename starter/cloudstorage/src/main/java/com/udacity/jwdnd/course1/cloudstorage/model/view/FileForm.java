@@ -10,10 +10,6 @@ public class FileForm {
     private String fileId;
     private MultipartFile updatedFile;
 
-    public FileForm(MultipartFile file){
-        this.updatedFile = file;
-    }
-
     public FileForm() {
     }
 
@@ -21,20 +17,4 @@ public class FileForm {
         this.fileId = fileId;
         this.updatedFile = updatedFile;
     }
-
-//    public MultipartFile getFile() {
-//        return updatedFile;
-//    }
-//
-//    public void setFile(MultipartFile file) {
-//        this.updatedFile = file;
-//    }
-//
-//    public String getFileId() {
-//        return fileId;
-//    }
-//
-//    public void setFileId(String fileId) {
-//        this.fileId = fileId;
-//    }
 }

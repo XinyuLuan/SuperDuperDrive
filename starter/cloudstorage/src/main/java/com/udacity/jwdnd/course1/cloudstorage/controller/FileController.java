@@ -34,19 +34,11 @@ public class FileController implements HandlerExceptionResolver {
 
     private static Logger logger = LoggerFactory.getLogger(FileController.class);
 
-//    @Autowired
-//    FileService fileService;
-    private final FileService fileService;
-
     @Autowired
-    public FileController(FileService fileService, UserService userService) {
-        this.fileService = fileService;
-    }
+    FileService fileService;
 
     @PostMapping("/add")
-    public String uploadFile( FileForm fileForm, Model model, HttpSession session){
-
-        logger.info("In FileController /file/add");
+    public String uploadOneFile( FileForm fileForm, Model model, HttpSession session){
 
         String errorMsg = "";
         int userId = (int) session.getAttribute("userId");
@@ -56,7 +48,7 @@ public class FileController implements HandlerExceptionResolver {
             model.addAttribute("changeErrorMsg", errorMsg);
             return "result";
         }
-        if(fileForm.getFileId() == null || fileForm.getFileId().equals("")){
+        if(fileForm.getFileId() == null || fileForm.getFileId().isEmpty()){
             // new file
             if(!fileService.hasDuplication(userId, fileForm.getUpdatedFile().getOriginalFilename())){
                 if(fileForm.getUpdatedFile().getOriginalFilename() == null || fileForm.getUpdatedFile().getOriginalFilename().equals("")){
@@ -109,19 +101,13 @@ public class FileController implements HandlerExceptionResolver {
             }
         }
 
-        logger.info("FileController: ->" + fileForm.getUpdatedFile().getOriginalFilename());
-//        logger.info("FileController: ->" + fileService.getItemById(1).getFileName());
-        List<File> filesList = fileService.findAllFiles();
-        for(File file : filesList){
-            logger.info("FileController -> /file/add: " + file.getFileName());
-        }
         model.addAttribute("fileForm", new FileForm());
         return "result";
 
     }
 
     @GetMapping("/view")
-    public ResponseEntity<Object> viewFile(@RequestParam(name = "fileId") String fileId, Model model){
+    public ResponseEntity<Object> viewOneFile(@RequestParam(name = "fileId") String fileId, Model model){
         File file = fileService.getItemById(Integer.parseInt(fileId));
 
         HttpHeaders headers = new HttpHeaders();
@@ -137,7 +123,7 @@ public class FileController implements HandlerExceptionResolver {
     }
 
     @GetMapping("/delete")
-    public String deleteFile(@RequestParam(name = "fileId") String fileId, Model model){
+    public String deleteOneFile(@RequestParam(name = "fileId") String fileId, Model model){
         int result = fileService.delete(Integer.parseInt(fileId));
 
         if(result != 1){

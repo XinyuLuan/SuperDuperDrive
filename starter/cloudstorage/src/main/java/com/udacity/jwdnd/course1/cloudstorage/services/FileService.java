@@ -22,7 +22,6 @@ public class FileService {
 
     public int insertFile(MultipartFile file, int userId) throws IOException {
         File newFile = new File(file.getOriginalFilename(), file.getContentType(), Long.toString(file.getSize()), userId, file.getBytes());
-        log.info("FileService -> " + newFile.toString());
         return fileMapper.insert(newFile);
     }
 

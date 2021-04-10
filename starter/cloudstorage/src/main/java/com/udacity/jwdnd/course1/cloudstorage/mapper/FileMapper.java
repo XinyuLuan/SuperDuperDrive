@@ -6,25 +6,18 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 @Mapper
-public interface FileMapper extends IMapper{
+public interface FileMapper extends MapperInterface {
     static final String GET_QUERY = "SELECT * FROM ";
     static final String INSERT_QUERY = "INSERT INTO ";
     static final String DELETE_QUERY = "DELETE FROM ";
     static final String TABLE = "FILES ";
     static final String WHERE_CONDITION = "WHERE ";
-    static final String updateFileByNoteObjectSql =  "UPDATE FILES SET " +
-            "filename = #{filename}, " +
-            "filedata = #{fileData}, " +
-            "contenttype = #{contentType}, " +
-            "filesize = #{fileSize} , " +
-            "userid = #{userId} " +
-            "WHERE fileId = #{fileId}";
+    static final String UPDATE_QUERY =  "UPDATE FILES SET ";
+
 
     @Select(GET_QUERY + TABLE + WHERE_CONDITION + "filename = #{fileName}")
     File getFile(String filename);
 
-    String insertFileSql = "INSERT INTO FILES (filename, contenttype, filesize, userid, filedata) " +
-            "VALUES(#{filename}, #{contentType}, #{fileSize}, #{userId}, #{fileData})";
     @Insert(INSERT_QUERY + TABLE + "(filename, contenttype, filesize, userid, filedata) " +
             "VALUES(#{fileName}, #{contentType}, #{fileSize}, #{userId}, #{fileData})")
     @Options(useGeneratedKeys = true, keyProperty = "fileId")
@@ -46,6 +39,11 @@ public interface FileMapper extends IMapper{
     File getItemById(Integer fileId);
 
     @Override
-    @Update(updateFileByNoteObjectSql)
+    @Update(UPDATE_QUERY + "filename = #{filename}, " +
+            "filedata = #{fileData}, " +
+            "contenttype = #{contentType}, " +
+            "filesize = #{fileSize} , " +
+            "userid = #{userId} " +
+            "WHERE fileId = #{fileId}")
     int update(Object object);
 }

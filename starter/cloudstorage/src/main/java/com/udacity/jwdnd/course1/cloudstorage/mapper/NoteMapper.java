@@ -1,13 +1,12 @@
 package com.udacity.jwdnd.course1.cloudstorage.mapper;
 
 import com.udacity.jwdnd.course1.cloudstorage.model.Note;
-import com.udacity.jwdnd.course1.cloudstorage.model.User;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
 @Mapper
-public interface NoteMapper extends IMapper{
+public interface NoteMapper extends MapperInterface {
     static final String GET_QUERY = "SELECT * FROM ";
     static final String INSERT_QUERY = "INSERT INTO ";
     static final String DELETE_QUERY = "DELETE FROM ";

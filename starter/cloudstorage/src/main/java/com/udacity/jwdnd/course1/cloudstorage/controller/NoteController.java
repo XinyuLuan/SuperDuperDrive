@@ -29,16 +29,11 @@ public class NoteController {
         Integer userId = (int)session.getAttribute("userId");
 
         Note newNote = new Note(noteForm, userId);
-        log.info(newNote.toString());
-//        int result = (newNote.getNoteId() == null) ? noteService.insert(newNote) : noteService.update(newNote);
         int result;
         if(newNote.getNoteId() == null){
-
-            log.info("inserting");
             result = noteService.insert(newNote);
         }
         else{
-            log.info("updating");
             result = noteService.update(newNote);
         }
 

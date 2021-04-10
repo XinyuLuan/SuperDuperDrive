@@ -63,9 +63,6 @@ public class HomeController {
         model.addAttribute("enS", encryptionService);
 
         List<File> filesList = fileService.findAllFiles();
-        for(File file : filesList){
-            log.info("HomeController/home: " + file.getFileName());
-        }
         model.addAttribute("filesList", filesList);
 
         FileForm fileForm = new FileForm();

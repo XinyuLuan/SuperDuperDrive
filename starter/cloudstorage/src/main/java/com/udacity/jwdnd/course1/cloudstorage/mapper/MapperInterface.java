@@ -1,6 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.mapper;
 
-public interface IMapper {
+public interface MapperInterface {
 
     int delete(Integer userid);
     int insert(Object o);
