@@ -12,10 +12,8 @@ public interface NoteMapper extends MapperInterface {
     static final String DELETE_QUERY = "DELETE FROM ";
     static final String TABLE = "NOTES ";
     static final String WHERE_CONDITION = "WHERE ";
-    static final String UPDATE = "UPDATE NOTES SET " +
-            "notetitle = #{noteTitle}, " +
-            "notedescription = #{noteDescription} " +
-            "WHERE noteid = #{noteId}";
+    static final String UPDATE_QUERY = "UPDATE NOTES SET ";
+
 
     String insertNoteSql = "INSERT INTO NOTES (notetitle, notedescription, userid) VALUES(#{noteTitle}, #{noteDescription}, #{userId})";
 
@@ -39,6 +37,9 @@ public interface NoteMapper extends MapperInterface {
     @Select(GET_QUERY + TABLE)
     List<Note> getAllNotes();
 
-    @Update(UPDATE)
+    @Update(UPDATE_QUERY +
+            "notetitle = #{noteTitle}, " +
+            "notedescription = #{noteDescription} " +
+            "WHERE noteid = #{noteId}")
     int update(Object object);
 }
