@@ -30,8 +30,8 @@ public class FileService {
         return fileMapper.update(newFile);
     }
 
-    public boolean hasDuplication(int userId, String filename){
-        File file = fileMapper.hasDuplicateFile(userId, filename);
+    public boolean hasDuplicationFiles(int userId, String filename){
+        File file = fileMapper.hasDuplicateFiles(userId, filename);
         return file != null;
     }
 

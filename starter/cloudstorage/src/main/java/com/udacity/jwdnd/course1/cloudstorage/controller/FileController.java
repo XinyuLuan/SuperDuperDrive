@@ -38,67 +38,20 @@ public class FileController implements HandlerExceptionResolver {
     FileService fileService;
 
     @PostMapping("/add")
-    public String uploadOneFile( FileForm fileForm, Model model, HttpSession session){
+    public String uploadOneFile(Model model, HttpSession session, FileForm fileForm){
 
-        String errorMsg = "";
         int userId = (int) session.getAttribute("userId");
         if(fileForm == null ){
-            errorMsg = "No File is Selected";
+            String errorMsg = "No File is Selected";
             model.addAttribute("changeSuccess", false);
             model.addAttribute("changeErrorMsg", errorMsg);
             return "result";
         }
         if(fileForm.getFileId() == null || fileForm.getFileId().isEmpty()){
-            // new file
-            if(!fileService.hasDuplication(userId, fileForm.getUpdatedFile().getOriginalFilename())){
-                if(fileForm.getUpdatedFile().getOriginalFilename() == null || fileForm.getUpdatedFile().getOriginalFilename().equals("")){
-                    errorMsg = "File is not found";
-                    model.addAttribute("changeSuccess", false);
-                    model.addAttribute("changeErrorMsg", errorMsg);
-                    return "result";
-                }
-
-                int uploaded;
-                try{
-                    uploaded = fileService.insertFile(fileForm.getUpdatedFile(), userId);
-                }
-                catch (Exception e){
-                    uploaded = -1;
-                }
-
-                if(uploaded != 1){
-                    model.addAttribute("changeSuccess", false);
-                    errorMsg = "Upload file failed";
-                    model.addAttribute("changeErrorMsg", errorMsg);
-                }
-                else{
-                    model.addAttribute("changeSuccess", true);
-                }
-            }
-            // duplicate file
-            else{
-                model.addAttribute("changeSuccess", false);
-                errorMsg = "The file is already exist";
-                model.addAttribute("changeErrorMsg", errorMsg);
-            }
+            addingFile(fileForm, userId, model);
         }
         else{
-            int updated;
-            try{
-                updated = fileService.updateFile(fileForm.getUpdatedFile(), userId);
-            }
-            catch (Exception e){
-                updated = -1;
-            }
-
-            if(updated != 1){
-                model.addAttribute("changeSuccess", false);
-                errorMsg = "Updated file failed";
-                model.addAttribute("changeErrorMsg", errorMsg);
-            }
-            else{
-                model.addAttribute("changeSuccess", true);
-            }
+           updatingFile(fileForm, userId, model);
         }
 
         model.addAttribute("fileForm", new FileForm());
@@ -128,7 +81,7 @@ public class FileController implements HandlerExceptionResolver {
 
         if(result != 1){
             model.addAttribute("changeSuccess", false);
-            model.addAttribute("changeErrorMsg", "Delete File Failed");
+            model.addAttribute("changeErrorMsg", "Delete File FAILED");
         }
 
         model.addAttribute("changeSuccess", true);
@@ -140,8 +93,62 @@ public class FileController implements HandlerExceptionResolver {
 
         ModelAndView modelAndView = new ModelAndView("result");
         if (ex instanceof MaxUploadSizeExceededException) {
-            modelAndView.getModel().put("errorResultMessage", "File size exceeds limit!");
+            modelAndView.getModel().put("errorResultMessage", "File size exceeds LIMITED");
         }
         return modelAndView;
+    }
+
+    private void updatingFile(FileForm fileForm, int userId, Model model){
+        int updated;
+        try{
+            updated = fileService.updateFile(fileForm.getUpdatedFile(), userId);
+        }
+        catch (Exception e){
+            updated = -1;
+        }
+
+        if(updated != 1){
+            model.addAttribute("changeSuccess", false);
+            String errorMsg = "Updated file FAILED";
+            model.addAttribute("changeErrorMsg", errorMsg);
+        }
+        else{
+            model.addAttribute("changeSuccess", true);
+        }
+    }
+
+    private void addingFile(FileForm fileForm, int userId, Model model){
+        // new file
+        if(!fileService.hasDuplicationFiles(userId, fileForm.getUpdatedFile().getOriginalFilename())){
+            if(fileForm.getUpdatedFile().getOriginalFilename() == null || fileForm.getUpdatedFile().getOriginalFilename().isEmpty()){
+                String errorMsg = "File is NOT FOUND";
+                model.addAttribute("changeErrorMsg", errorMsg);
+                model.addAttribute("changeSuccess", false);
+                return;
+            }
+
+            int uploaded;
+            try{
+                uploaded = fileService.insertFile(fileForm.getUpdatedFile(), userId);
+            }
+            catch (Exception exception){
+                uploaded = -1;
+            }
+
+            if(uploaded != 1){
+                model.addAttribute("changeSuccess", false);
+                String errorMsg = "Upload file failed";
+                model.addAttribute("changeErrorMsg", errorMsg);
+            }
+            else{
+                model.addAttribute("changeSuccess", true);
+            }
+        }
+        // duplicate file
+        else{
+            model.addAttribute("changeSuccess", false);
+            String errorMsg = "The file is already EXIST";
+            model.addAttribute("changeErrorMsg", errorMsg);
+        }
     }
 }

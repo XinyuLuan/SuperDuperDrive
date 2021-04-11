@@ -24,7 +24,7 @@ public interface FileMapper extends MapperInterface {
     int insert(File o);
 
     @Select(GET_QUERY + TABLE + WHERE_CONDITION + "userId = #{userId} AND filename = #{filename}" )
-    File hasDuplicateFile(int userId, String filename);
+    File hasDuplicateFiles(int userId, String filename);
 
     @Delete(DELETE_QUERY + TABLE + WHERE_CONDITION + " fileId = #{fileId}")
     int delete(Integer fileId);
