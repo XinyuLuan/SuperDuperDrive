@@ -50,4 +50,8 @@ public class FileService {
     public File getItemById(Integer fileId){
         return fileMapper.getItemById(fileId);
     }
+
+    public List<File> findAllFilesByUserId(Integer userId){
+        return fileMapper.getItemByUserId(userId);
+    }
 }

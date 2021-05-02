@@ -30,6 +30,7 @@ public class SignupController {
         if(!userService.isUsernameAvailable(signupForm.getUsername())){
             signUpErrorMsg = "The username is already exist.";
             model.addAttribute("signupError", signUpErrorMsg);
+            return "signup";
         }
         if(signUpErrorMsg == null){
             User user = new User(signupForm);
@@ -37,11 +38,10 @@ public class SignupController {
             if(addRow == 0){
                 signUpErrorMsg = "Error during the sign up process, please try again";
                 model.addAttribute("signupError", signUpErrorMsg);
+                return "signup";
             }
         }
-        if(signUpErrorMsg == null){
-            model.addAttribute("signupSuccess", true);
-        }
-        return "signup";  // do all function in controller need to return the string?
+        model.addAttribute("signupSuccess", true);
+        return "login";  // do all function in controller need to return the string?
     }
 }

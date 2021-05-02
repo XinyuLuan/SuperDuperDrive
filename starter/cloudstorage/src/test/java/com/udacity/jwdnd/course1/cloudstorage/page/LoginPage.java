@@ -40,7 +40,7 @@ public class LoginPage {
     }
 
     public boolean loginRun(WebDriver driver) throws InterruptedException{
-        WebDriverWait wait = new WebDriverWait(driver, TestConstant.WAITFOR5SEC);
+        WebDriverWait wait = new WebDriverWait(driver, 5);
 
         WebElement loginErrorTxt = null;
         try {

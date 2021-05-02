@@ -46,4 +46,7 @@ public interface FileMapper extends MapperInterface {
             "userid = #{userId} " +
             "WHERE fileId = #{fileId}")
     int update(Object object);
+
+    @Select(GET_QUERY + TABLE + WHERE_CONDITION + "userId = #{userId}")
+    List<File> getItemByUserId(Integer userId);
 }

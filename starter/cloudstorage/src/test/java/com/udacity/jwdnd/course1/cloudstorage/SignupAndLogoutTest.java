@@ -1,16 +1,14 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
+import com.udacity.jwdnd.course1.cloudstorage.page.HomePage;
 import com.udacity.jwdnd.course1.cloudstorage.page.LoginPage;
 import com.udacity.jwdnd.course1.cloudstorage.page.SignupPage;
 import com.udacity.jwdnd.course1.cloudstorage.utils.TestConstant;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-import net.bytebuddy.implementation.bytecode.constant.TextConstant;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
@@ -20,7 +18,7 @@ import java.util.Locale;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class SignupAndLogoutTest {
 
-    final Integer SLEEPTIME = 3000;
+    final Integer SLEEPTIME = 1000;
 
 
     @LocalServerPort
@@ -63,8 +61,8 @@ public class SignupAndLogoutTest {
         Thread.sleep(SLEEPTIME);
         SignupPage signupPage = new SignupPage(driver);
         signupPage.signup("j", "j", "j", "j");
-        Assertions.assertTrue(signupPage.signupRun(driver));
-        //Assertions.assertFalse(signupPage.signUpRun(driver));
+//        Assertions.assertTrue(signupPage.signupRun(driver));
+        Assertions.assertFalse(signupPage.signupRun(driver));
     }
 
     @Test
@@ -99,4 +97,37 @@ public class SignupAndLogoutTest {
         Assertions.assertFalse(loginPage.loginRun(driver));
     }
 
+    @Test
+    @Order(5)
+    public void testHomePageNotAccessibleWithoutLogin() throws InterruptedException{
+        driver.get(SignupAndLogoutTest.BASEURL + TestConstant.HOME_URL);
+
+        Thread.sleep(SLEEPTIME);
+        Assertions.assertEquals(SignupAndLogoutTest.BASEURL + TestConstant.LOGIN_URL, driver.getCurrentUrl());
+    }
+
+    @Test
+    @Order(6)
+    public void testLogout() throws  InterruptedException{
+        driver.get(SignupAndLogoutTest.BASEURL + TestConstant.SIGNUP_URL);
+        SignupPage signupPage = new SignupPage(driver);
+        signupPage.signup("first", "last", "username", "password");
+
+        Thread.sleep(SLEEPTIME);
+        driver.get(SignupAndLogoutTest.BASEURL + TestConstant.LOGIN_URL);
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.loginWith("username", "password");
+        Thread.sleep(SLEEPTIME);
+
+        driver.get(SignupAndLogoutTest.BASEURL + TestConstant.HOME_URL);
+        Assertions.assertEquals(SignupAndLogoutTest.BASEURL + TestConstant.HOME_URL, driver.getCurrentUrl());
+        Thread.sleep(SLEEPTIME);
+
+        HomePage homePage = new HomePage(driver);
+        homePage.logout();
+        Thread.sleep(SLEEPTIME);
+
+        driver.get(SignupAndLogoutTest.BASEURL + TestConstant.HOME_URL);
+        Assertions.assertEquals(SignupAndLogoutTest.BASEURL + TestConstant.LOGIN_URL, driver.getCurrentUrl());
+    }
 }

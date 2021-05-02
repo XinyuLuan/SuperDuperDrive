@@ -4,10 +4,8 @@ package com.udacity.jwdnd.course1.cloudstorage.controller;
 import com.udacity.jwdnd.course1.cloudstorage.model.File;
 import com.udacity.jwdnd.course1.cloudstorage.model.view.FileForm;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
-import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -93,7 +91,9 @@ public class FileController implements HandlerExceptionResolver {
 
         ModelAndView modelAndView = new ModelAndView("result");
         if (ex instanceof MaxUploadSizeExceededException) {
-            modelAndView.getModel().put("errorResultMessage", "File size exceeds LIMITED");
+            modelAndView.getModel().put("changeSuccess", false);
+            String errorMsg = "File size limit exceeded";
+            modelAndView.getModel().put("changeErrorMsg", errorMsg);
         }
         return modelAndView;
     }

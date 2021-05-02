@@ -1,7 +1,5 @@
 package com.udacity.jwdnd.course1.cloudstorage.page;
 
-import com.udacity.jwdnd.course1.cloudstorage.SignupAndLogoutTest;
-import com.udacity.jwdnd.course1.cloudstorage.utils.TestConstant;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -43,7 +41,7 @@ public class SignupPage {
 
     public boolean signupRun(WebDriver driver) throws InterruptedException{
 
-        WebDriverWait wait = new WebDriverWait(driver, TestConstant.WAITFOR5SEC);
+        WebDriverWait wait = new WebDriverWait(driver, 5);
 //        WebElement signUpErrorTxt = null;
         String signupSuccessId = "signupSuccess";
         WebElement signupSuccessTxt = null;

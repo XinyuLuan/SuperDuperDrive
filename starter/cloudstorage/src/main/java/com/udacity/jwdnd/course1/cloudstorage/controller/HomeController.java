@@ -62,7 +62,7 @@ public class HomeController {
 
         model.addAttribute("enS", encryptionService);
 
-        List<File> filesList = fileService.findAllFiles();
+        List<File> filesList = fileService.findAllFilesByUserId(userId);
         model.addAttribute("filesList", filesList);
 
         FileForm fileForm = new FileForm();

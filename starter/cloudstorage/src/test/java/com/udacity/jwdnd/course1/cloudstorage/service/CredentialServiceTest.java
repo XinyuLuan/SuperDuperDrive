@@ -4,15 +4,20 @@ import com.udacity.jwdnd.course1.cloudstorage.mapper.CredentialMapper;
 import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
 import com.udacity.jwdnd.course1.cloudstorage.model.User;
 import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
+import com.udacity.jwdnd.course1.cloudstorage.services.EncryptionService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import com.udacity.jwdnd.course1.cloudstorage.utils.TestConstant;
+import lombok.extern.slf4j.Slf4j;
 import org.h2.command.ddl.CreateAggregate;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.List;
 
+@Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CredentialServiceTest {
 
@@ -25,6 +30,8 @@ public class CredentialServiceTest {
     private CredentialMapper credentialMapper;
     @Autowired
     private UserService userService;
+    @Autowired
+    private EncryptionService encryptionService;
 
     @BeforeAll
     static void beforeAll(){
@@ -88,6 +95,15 @@ public class CredentialServiceTest {
     @Test
     public void testUpdateCredential(){
         int expectingResult = 1;
+
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
+        String encodedSalt = Base64.getEncoder().encodeToString(salt);
+        String password = testCredential.getPassword();
+        String encyptpassword = this.encryptionService.encryptValue(password, encodedSalt);
+        testCredential.setKey(encodedSalt);
+        testCredential.setPassword(encyptpassword);
         credentialMapper.insert(testCredential);
 
         List<Credential> credentials = credentialMapper.getCredentialById(testUser.getUserid());
