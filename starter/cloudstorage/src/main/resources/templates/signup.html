@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!--        <meta th:if="${signupSuccess}" http-equiv="refresh" content="5; url=../login" />-->
 
         <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/bootstrap.min.css}">
 
@@ -17,7 +18,7 @@
             <h1 class="display-5">Sign Up</h1>
             <form th:object="${signupForm}" th:action="@{/signup}" action="#" method="POST">
                 <div th:if="${signupSuccess}" class="alert alert-dark" >
-                    <span id = "signupSuccess">You successfully signed up! Please continue to the <a>login</a> page.</span>
+                    <span id = "signupSuccess">You successfully signed up! Please continue to the <a th:href="@{/login}">login</a> page.</span>
                 </div>
                 <div th:if="${signupError != null}" class="alert alert-danger">
                     <span th:text="${signupError}" id = "signupError">Example Signup Error Message</span>

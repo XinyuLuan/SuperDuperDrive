@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/signup")
@@ -25,8 +26,9 @@ public class SignupController {
 
     @PostMapping
     // Model is used for data to talk to html page
-    public String getPost(@ModelAttribute SignupForm signupForm, Model model){
+    public String getPost(@ModelAttribute SignupForm signupForm, Model model, RedirectAttributes redirAttrs){
         String signUpErrorMsg = null;
+        String signupSuccessMsg = null;
         if(!userService.isUsernameAvailable(signupForm.getUsername())){
             signUpErrorMsg = "The username is already exist.";
             model.addAttribute("signupError", signUpErrorMsg);
@@ -41,7 +43,10 @@ public class SignupController {
                 return "signup";
             }
         }
+        signupSuccessMsg = "Signup Successful";
         model.addAttribute("signupSuccess", true);
-        return "login";  // do all function in controller need to return the string?
+//        redirAttrs.addFlashAttribute("signupSuccess", true);
+//        return "redirect:/login/";
+        return "signup";  // do all function in controller need to return the string?
     }
 }
