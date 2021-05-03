@@ -46,7 +46,7 @@ public class SignupController {
         signupSuccessMsg = "Signup Successful";
         model.addAttribute("signupSuccess", true);
 //        redirAttrs.addFlashAttribute("signupSuccess", true);
-//        return "redirect:/login/";
-        return "signup";  // do all function in controller need to return the string?
+        return "login";
+//        return "signup";  // do all function in controller need to return the string?
     }
 }
